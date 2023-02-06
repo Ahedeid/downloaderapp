@@ -11,7 +11,6 @@ import 'widget/customdropdown.dart';
 
 List<String> list = <String>['.mp3', '.mp4', '.pdf', '.png'];
 
-
 class DownloadScreen extends StatefulWidget {
   const DownloadScreen({Key? key}) : super(key: key);
 
@@ -20,7 +19,6 @@ class DownloadScreen extends StatefulWidget {
 }
 
 class _DownloadScreenState extends State<DownloadScreen> {
-
   String dropdownValue = list.first;
 
   final Dio dio = Dio();
@@ -42,12 +40,12 @@ class _DownloadScreenState extends State<DownloadScreen> {
           for (int x = 1; x < paths.length; x++) {
             String folder = paths[x];
             if (folder != "Android") {
-              newPath += "/" + folder;
+              newPath += "/$folder";
             } else {
               break;
             }
           }
-          newPath = newPath + "/LocalStoriegApp";
+          newPath = "$newPath/LocalStoriegApp";
           directory = Directory(newPath);
         } else {
           return false;
@@ -59,7 +57,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
           return false;
         }
       }
-      File saveFile = File(directory.path + "/$fileName");
+      File saveFile = File("${directory.path}/$fileName");
       if (!await directory.exists()) {
         await directory.create(recursive: true);
       }
@@ -67,7 +65,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
         await dio.download(url, saveFile.path,
             onReceiveProgress: (downloaded, totalSize) {
           setState(() {
-            progress = -(downloaded / totalSize);
+            progress = downloaded/totalSize;
+           // print(progress);
           });
         });
         if (Platform.isIOS) {
@@ -114,6 +113,12 @@ class _DownloadScreenState extends State<DownloadScreen> {
     });
   }
 
+  bool isURl(String url) {
+    return RegExp(
+            r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)')
+        .hasMatch(url);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,86 +128,90 @@ class _DownloadScreenState extends State<DownloadScreen> {
         body: Center(
           child: loading
               ? Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 30),
                   child: CustomLoading(progress: progress))
               : Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                  child: Column(
-                    children: [
-                      Material(
-                        elevation: 5,
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(15)),
-                        child: TextField(
-                          controller: controllerName,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
-                            prefixIconConstraints:
-                            BoxConstraints.tightFor(width: 45, height: 45),
-                            hintText: 'Named',
-                            alignLabelWithHint: true,
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintStyle: TextStyle(fontSize: 14),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                  child: Form(
+                    child: Column(
+                      children: [
+                        Material(
+                          elevation: 5,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
+                          child: TextFormField(
+                            controller: controllerName,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                              prefixIconConstraints: BoxConstraints.tightFor(
+                                  width: 45, height: 45),
+                              hintText: 'Named',
+                              alignLabelWithHint: true,
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintStyle: TextStyle(fontSize: 14),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Material(
-                        elevation: 5,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        child: TextField(
-                          controller: controller,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
-                            prefixIconConstraints:
-                                BoxConstraints.tightFor(width: 45, height: 45),
-                            hintText: 'Write The URL',
-                            alignLabelWithHint: true,
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintStyle: TextStyle(fontSize: 14),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                        const SizedBox(height: 10),
+                        Material(
+                          elevation: 5,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
+                          child: TextField(
+                            controller: controller,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                              prefixIconConstraints: BoxConstraints.tightFor(
+                                  width: 45, height: 45),
+                              hintText: 'Write The URL',
+                              alignLabelWithHint: true,
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintStyle: TextStyle(fontSize: 14),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 15),
-                       CustomDropdownButton(dropdownValue: dropdownValue, ChangedDrop: (String? value) {
-                           setState(() {
-                             dropdownValue = value!;
-                             print(dropdownValue);
-                           }
-                           );
-                       },),
-                      const SizedBox(height: 15),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                          ),
-                          onPressed: downloadFile,
-                          child: const Text('DownLoade')),
-                    ],
+                        const SizedBox(height: 15),
+                        CustomDropdownButton(
+                          dropdownValue: dropdownValue,
+                          ChangedDrop: (String? value) {
+                            setState(() {
+                              dropdownValue = value!;
+                              print(dropdownValue);
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 15),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                            ),
+                            onPressed: isURl(controller.text) == true
+                                ? downloadFile
+                                : () => print('Wrong URl'),
+                            child: const Text('DownLoade')),
+                      ],
+                    ),
                   ),
                 ),
         ));
   }
 }
 
-
-
-
+// كونجستال

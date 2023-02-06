@@ -1,5 +1,6 @@
-import 'package:downloaderapp/screens/home_screen/widget/custom_list.dart';
 import 'package:flutter/material.dart';
+
+import 'custom_list.dart';
 
 
 class HomeScreen extends StatelessWidget {

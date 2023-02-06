@@ -8,13 +8,16 @@ class CustomLoading extends StatelessWidget {
 
   final double progress;
 
+
   @override
   Widget build(BuildContext context) {
+    print(progress);
     return Column(children: [
-      const CircularProgressIndicator(
+       CircularProgressIndicator(
         backgroundColor: Colors.black,
-        valueColor: AlwaysStoppedAnimation(Colors.orange),
+        valueColor: const AlwaysStoppedAnimation(Colors.orange),
         strokeWidth: 10,
+        value: progress,
       ),
       const SizedBox(
         height: 15,
@@ -23,15 +26,17 @@ class CustomLoading extends StatelessWidget {
         backgroundColor: Colors.black,
         valueColor: const AlwaysStoppedAnimation(Colors.orange),
         minHeight: 10,
+        color: Colors.white,
         value: progress,
       ),
       const SizedBox(
         height: 15,
       ),
       Text(
-        '${(progress / 100000).toStringAsFixed(1)}+%',
+        '${(progress/100).toStringAsFixed(0)}%',
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     ]);
   }
 }
+//${(progress/100).toStringAsFixed(0)}
