@@ -1,7 +1,7 @@
-import 'package:downloaderapp/home.dart';
+import 'package:downloaderapp/screens/home_screen/home.dart';
 import 'package:flutter/material.dart';
 
-import 'downloadscreen.dart';
+import 'screens/download_screen/downloadscreen.dart';
 
 void main() => runApp(const DownloaderApp());
 

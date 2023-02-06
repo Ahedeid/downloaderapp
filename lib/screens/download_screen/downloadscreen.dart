@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:downloaderapp/screens/download_screen/widget/custom_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import 'widget/customdropdown.dart';
 
 List<String> list = <String>['.mp3', '.mp4', '.pdf', '.png'];
 
@@ -121,26 +124,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
           child: loading
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(children:    [
-                    const CircularProgressIndicator(
-                      backgroundColor: Colors.black,
-                      valueColor: AlwaysStoppedAnimation(Colors.orange),
-                      strokeWidth: 10,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    LinearProgressIndicator(
-                      backgroundColor: Colors.black,
-                      valueColor:  AlwaysStoppedAnimation(Colors.orange),
-                      minHeight: 10,
-                      value: progress,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text('${(progress / 100000).toStringAsFixed(1)}+%',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                  ]))
+                  child: CustomLoading(progress: progress))
               : Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
@@ -205,7 +189,6 @@ class _DownloadScreenState extends State<DownloadScreen> {
                            }
                            );
                        },),
-
                       const SizedBox(height: 15),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -221,35 +204,5 @@ class _DownloadScreenState extends State<DownloadScreen> {
 }
 
 
-class CustomDropdownButton extends StatefulWidget {
-   CustomDropdownButton({required this.dropdownValue,required this.ChangedDrop});
-  String dropdownValue;
-  Function(String? value) ChangedDrop;
 
-  @override
-  State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
-}
 
-class _CustomDropdownButtonState extends State<CustomDropdownButton> {
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: widget.dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: widget.ChangedDrop,
-      items: list.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
-  }
-}

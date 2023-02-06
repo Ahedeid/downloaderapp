@@ -1,3 +1,4 @@
+import 'package:downloaderapp/screens/home_screen/widget/custom_list.dart';
 import 'package:flutter/material.dart';
 
 
@@ -11,7 +12,6 @@ class HomeScreen extends StatelessWidget {
     'Image',
     'CV'
   ];
-
   var details =[
     'mp3',
     'mp4',
@@ -39,35 +39,3 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class CustomList extends StatelessWidget {
-  String title;
-  String details;
-
-   CustomList({
-    required this.title,
-     required this.details,
-  });
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-        Text(title,style: const TextStyle(fontSize: 18),),
-        Text(details,),
-      ],),
-      onTap: (){
-        Navigator.pushNamed(context, 'download_screen');
-      },
-      trailing: IconButton(
-        onPressed: (){
-          Navigator.pushNamed(context, 'download_screen');
-        },
-        icon: const Icon(Icons.download_for_offline_outlined),
-      ),
-    );
-  }
-}
