@@ -65,8 +65,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
         await dio.download(url, saveFile.path,
             onReceiveProgress: (downloaded, totalSize) {
           setState(() {
-            progress = downloaded/totalSize;
-           // print(progress);
+            progress = downloaded / totalSize;
+            // print(progress);
           });
         });
         if (Platform.isIOS) {
@@ -115,7 +115,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
 
   bool isURl(String url) {
     return RegExp(
-            r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)')
+            r'^((?:.|\n)*?)((http://www\.|https://www\.|http://|https://)?[a-z\d]+([\-.]{1}[a-z\d]+)([-A-Z\d.]+)(/[-A-Z\d+&@#/%=~_|!:,.;]*)?(\?[A-Z\d+&@#/%=~_|!:‌​,.;]*)?)')
         .hasMatch(url);
   }
 
@@ -128,8 +128,15 @@ class _DownloadScreenState extends State<DownloadScreen> {
         body: Center(
           child: loading
               ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 30),
-                  child: CustomLoading(progress: progress))
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                  child: Column(
+                    children: [
+                      CustomLoading(progress: progress),
+                      ElevatedButton(onPressed: () {}, child: const Text('cansel'))
+                    ],
+                  ),
+                )
               : Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
@@ -205,7 +212,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                             onPressed: isURl(controller.text) == true
                                 ? downloadFile
                                 : () => print('Wrong URl'),
-                            child: const Text('DownLoade')),
+                            child: const Text('DownLoad')),
                       ],
                     ),
                   ),
@@ -213,4 +220,3 @@ class _DownloadScreenState extends State<DownloadScreen> {
         ));
   }
 }
-
