@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:downloaderapp/screens/download_screen/widget/custom_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'widget/custom_dropdown.dart';
@@ -23,6 +24,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
   final Dio dio = Dio();
   bool loading = false;
   double progress = 0;
+  File? newPath2 ;
+  Directory? directory ;
 
   TextEditingController controller = TextEditingController();
   TextEditingController controllerName = TextEditingController();
@@ -59,6 +62,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
         }
       }
       File saveFile = File("${directory.path}/$fileName");
+      newPath2 = saveFile ;
+
       if (!await directory.exists()) {
         await directory.create(recursive: true);
       }
@@ -112,6 +117,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
     }
     setState(() {
       loading = false;
+      OpenFile.open(newPath2?.path);
     });
   }
 
