@@ -7,7 +7,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'widget/customdropdown.dart';
+import 'widget/custom_dropdown.dart';
 
 List<String> list = <String>['.mp3', '.mp4', '.pdf', '.png'];
 
@@ -28,7 +28,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
   TextEditingController controller = TextEditingController();
   TextEditingController controllerName = TextEditingController();
 
-  Future<bool> saveVideo(String url, String fileName) async {
+  Future<bool> saveFile(String url, String fileName) async {
     Directory? directory;
     try {
       if (Platform.isAndroid) {
@@ -41,6 +41,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
             String folder = paths[x];
             if (folder != "Android") {
               newPath += "/$folder";
+              print(newPath);
             } else {
               break;
             }
@@ -99,10 +100,11 @@ class _DownloadScreenState extends State<DownloadScreen> {
       loading = true;
       progress = 0;
     });
-    bool downloaded = await saveVideo(
+    bool downloaded = await saveFile(
         controller.text,
         // "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
-        controllerName.text + dropdownValue);
+        controllerName.text + dropdownValue
+    );
     if (downloaded) {
       print("File Downloaded");
     } else {
