@@ -33,7 +33,7 @@ class CustomLoading extends StatelessWidget {
         height: 15,
       ),
       Text(
-        '${(progress/100).toStringAsFixed(0)}%',
+        '${(progress*100).toStringAsFixed(0)}%',
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     ]);

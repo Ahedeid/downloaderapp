@@ -1,13 +1,12 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:downloaderapp/screens/download_screen/widget/custom_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import 'widget/custom_dropdown.dart';
+
 
 List<String> list = <String>['.mp3', '.mp4', '.pdf', '.png'];
 
@@ -47,6 +46,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
             }
           }
           newPath = "$newPath/LocalStoriegApp";
+
           directory = Directory(newPath);
         } else {
           return false;
@@ -83,6 +83,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
     }
   }
 
+
   Future<bool> _requestPermission(Permission permission) async {
     if (await permission.isGranted) {
       return true;
@@ -103,8 +104,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
     bool downloaded = await saveFile(
         controller.text,
         // "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
-        controllerName.text + dropdownValue
-    );
+        controllerName.text + dropdownValue);
     if (downloaded) {
       print("File Downloaded");
     } else {
@@ -135,7 +135,10 @@ class _DownloadScreenState extends State<DownloadScreen> {
                   child: Column(
                     children: [
                       CustomLoading(progress: progress),
-                      ElevatedButton(onPressed: () {}, child: const Text('cansel'))
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('cansel'),
+                      ),
                     ],
                   ),
                 )
